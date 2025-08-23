@@ -26,11 +26,11 @@ else:
 screen = pygame.display.set_mode((x, y), pygame.FULLSCREEN)
 
 # Font init
-menuFontSize = y//5
-font = pygame.font.Font('usr/lib/technocalypse/assets/Techno.ttf', menuFontSize)
+titleFont = pygame.font.Font('usr/lib/technocalypse/assets/Techno.ttf', (y//5))
+mediumFont = pygame.font.Font('usr/lib/technocalypse/assets/Techno.ttf', (y//10))
 
 # Picture init
-background = pygame.image.load('usr/lib/technocalypse/assets/menu_background.jpg')
+background = pygame.image.load('usr/lib/technocalypse/assets/menu.jpg')
 background = pygame.transform.scale(background, (x, y))
 
 # Game state
@@ -42,13 +42,21 @@ def draw_background():
     screen.blit(background, (0,0))
 
 def draw_menu_text():
-    menuText = font.render('TECHNOCALYPSE', True, (0, 0, 0,))
-    screen.blit(menuText, menuText.get_rect(center=(x//2, y//2)))
+    for dx, dy in [(2, 2), (-2, -2), (2, -2), (-2, 2)]:
+        outline_text_1 = titleFont.render('TECHNOCALYPSE', True, (255, 255, 255))
+        screen.blit(outline_text_1, outline_text_1.get_rect(center=(x//2 + dx, y//2 + dy)))
+        outline_text_2 = mediumFont.render('Press Space to Start', True, (255, 255, 255))
+        screen.blit(outline_text_2, outline_text_2.get_rect(center=(x//2 + dx, (y//2 + 200) + dy)))
+    titleText = titleFont.render('TECHNOCALYPSE', True, (0, 0, 0,))
+    screen.blit(titleText, titleText.get_rect(center=(x//2, y//2)))
+    mediumText = mediumFont.render('Press Space to Start', True, (0, 0, 0,))
+    screen.blit(mediumText, mediumText.get_rect(center=(x//2, y//2 + 200)))
 
 # Main menu
 while main_menu == True:
     draw_background()
     draw_menu_text()
+    menuTheme.play(loops=-1)
     pygame.display.update()
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:

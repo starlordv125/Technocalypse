@@ -1,2 +1,4 @@
-# CS-Club-Game
-At this point the game is in its first steps and is just a concept/idea. Right now I'm thinking of making a arcade style pixel game using Pygame.
+# Technocalypse
+If you are from the VWCC computer science club, you're in the right place!
+## File Locations
+The main executable file is located under '''Technocalypse/usr/bin/game.py'''
