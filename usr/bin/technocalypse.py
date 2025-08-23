@@ -18,7 +18,8 @@ roundStartTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/roundStart.mp
 # Ends Program
 def quit_program():
     print('Quitting game...')
-    quit()
+    pygame.quit()
+    exit()
 
 # Screen setup
 screen_info = pygame.display.get_desktop_sizes()
@@ -35,29 +36,28 @@ mediumFont = pygame.font.Font('usr/lib/technocalypse/assets/Techno.ttf', (y//10)
 roundFont = pygame.font.Font('usr/lib/technocalypse/assets/Technopath.otf', (y//10))
 
 # Picture init
-background = pygame.image.load('usr/lib/technocalypse/assets/menu.jpg')
-background = pygame.transform.scale(background, (x, y))
+menuBackground = pygame.image.load('usr/lib/technocalypse/assets/menu.jpg')
+menuBackground = pygame.transform.scale(menuBackground, (x, y))
 
 # Game state
 count = 0
 score = 0
 health = 3 # May change later
-main_menu = True
 
 # Draw background
 def draw_background():
-    screen.blit(background, (0,0))
+    screen.blit(menuBackground, (0,0))
 
 def draw_menu_text():
     for dx, dy in [(2, 2), (-2, -2), (2, -2), (-2, 2)]:
         outline_text_1 = titleFont.render('TECHNOCALYPSE', True, (255, 255, 255))
         screen.blit(outline_text_1, outline_text_1.get_rect(center=(x//2 + dx, y//2 + dy)))
         outline_text_2 = mediumFont.render('Press Space to Start', True, (255, 255, 255))
-        screen.blit(outline_text_2, outline_text_2.get_rect(center=(x//2 + dx, (y//2 + 200) + dy)))
+        screen.blit(outline_text_2, outline_text_2.get_rect(center=(x//2 + dx, (y//2 + y//6) + dy)))
     titleText = titleFont.render('TECHNOCALYPSE', True, (0, 0, 0,))
     screen.blit(titleText, titleText.get_rect(center=(x//2, y//2)))
     mediumText = mediumFont.render('Press Space to Start', True, (0, 0, 0,))
-    screen.blit(mediumText, mediumText.get_rect(center=(x//2, y//2 + 200)))
+    screen.blit(mediumText, mediumText.get_rect(center=(x//2, y//2 + y//6)))
 
 def draw_round_text(roundCount):
     stroundCount = str(roundCount)
@@ -66,18 +66,21 @@ def draw_round_text(roundCount):
         screen.blit(outline_text_2, outline_text_2.get_rect(center=(x//2 + dx, y//2 + dy)))
 
 # Main menu
-while main_menu == True:
-    draw_background()
-    draw_menu_text()
+def mainMenu():
+    running = True
     menuTheme.play(loops=-1)
-    pygame.display.update()
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            pygame.quit()
-            exit()
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            menuTheme.stop()
-            main_menu = False
+    while running == True:
+        draw_background()
+        draw_menu_text()
+        pygame.display.update()
+        # This is to make sure the cpu doesn't max out
+        time.sleep(0.1)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                quit_program()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                menuTheme.stop()
+                running = False
 
 # Round start
 def round_start():
@@ -85,10 +88,14 @@ def round_start():
     roundCount = count + 1
     start_time = time.time()
     while (time.time() - start_time) < 4.5:
+        time.sleep(0.1)
         screen.fill((0, 0, 0))
         draw_round_text(roundCount)
         pygame.display.update()
     
 # Main loop
-round_start()
+def main():
+    round_start()
+mainMenu()
+main()
 clock.tick(60)
