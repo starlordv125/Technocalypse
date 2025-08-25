@@ -1,3 +1,23 @@
+#!/usr/bin/python3
+#Technocalypse: A game made by the Virginia Western Community College
+# Computer Science Club, written in python.
+#Copyright (C) 2025  Cameron Reynolds
+
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
+
 import pygame
 import math
 from PIL import Image, ImageSequence
@@ -11,7 +31,7 @@ clock = pygame.time.Clock()
 
 # Sound init will go here
 menuTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/menu.mp3')
-menuTheme.set_volume(0.45)
+menuTheme.set_volume(0.55)
 battleTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/battle.mp3')
 roundStartTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/roundStart.mp3')
 
@@ -65,8 +85,20 @@ def draw_round_text(roundCount):
         outline_text_2 = roundFont.render(('Round ' + stroundCount), True, (255, 255, 255))
         screen.blit(outline_text_2, outline_text_2.get_rect(center=(x//2 + dx, y//2 + dy)))
 
+# Plan to expand this to gameplay events
+def menu_handle_events():
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                quit_program()
+            elif event.key == pygame.K_SPACE:
+                menuTheme.stop()
+                return 1
+
 # Main menu
-def mainMenu():
+def main_menu():
+    # Clears pygame event cache
+    pygame.event.get()
     running = True
     menuTheme.play(loops=-1)
     while running == True:
@@ -75,27 +107,27 @@ def mainMenu():
         pygame.display.update()
         # This is to make sure the cpu doesn't max out
         time.sleep(0.1)
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                quit_program()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                menuTheme.stop()
-                running = False
+        key = menu_handle_events()
+        if key == 1:
+            running = False
+        
 
 # Round start
 def round_start():
+    global count
     roundStartTheme.play()
-    roundCount = count + 1
+    count += 1
     start_time = time.time()
     while (time.time() - start_time) < 4.5:
         time.sleep(0.1)
         screen.fill((0, 0, 0))
-        draw_round_text(roundCount)
+        draw_round_text(count)
         pygame.display.update()
     
 # Main loop
 def main():
     round_start()
-mainMenu()
+
+main_menu()
 main()
 clock.tick(60)
