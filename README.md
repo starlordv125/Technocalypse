@@ -1,5 +1,7 @@
 # Technocalypse
 If you are from the VWCC computer science club, you're in the right place!
+## Pygame
+You will need to install the `pygame` and possibly `pillow` python package. You can use `pip` or if you have linux you can use your package manager.
 ## File Locations
 The main executable file is located under `Technocalypse/usr/bin/technocalypse.py`.
 All assets such as pictures, fonts, and sounds are in `Technocalypse/usr/lib/technocalypse/assets/`
