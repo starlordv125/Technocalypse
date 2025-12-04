@@ -1,6 +1,5 @@
-#!/usr/bin/python3
 #Technocalypse: A game made by the Virginia Western Community College
-# Computer Science Club, written in python.
+#Computer Science Club, written in python.
 #Copyright (C) 2025  Cameron Reynolds
 
 #This program is free software: you can redistribute it and/or modify
@@ -30,10 +29,10 @@ pygame.mixer.init()
 clock = pygame.time.Clock()
 
 # Sound init will go here
-menuTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/menu.mp3')
+menuTheme = pygame.mixer.Sound('assets/menu.mp3')
 menuTheme.set_volume(0.55)
-battleTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/battle.mp3')
-roundStartTheme = pygame.mixer.Sound('usr/lib/technocalypse/assets/roundStart.mp3')
+battleTheme = pygame.mixer.Sound('assets/battle.mp3')
+roundStartTheme = pygame.mixer.Sound('assets/roundStart.mp3')
 
 # Ends Program
 def quit_program():
@@ -42,21 +41,27 @@ def quit_program():
     exit()
 
 # Screen setup
-screen_info = pygame.display.get_desktop_sizes()
-if screen_info:
-    x, y = screen_info[0]
-else:
-    print('Error: could not determine resolution')
-    quit_program()
-screen = pygame.display.set_mode((x, y), pygame.FULLSCREEN)
+#screen_info = pygame.display.get_desktop_sizes()
+#if screen_info:
+    #x, y = screen_info[0]
+x = 800
+y = 600
+
+    
+#else:
+    #print('Error: could not determine resolution')
+    #quit_program()
+# Makes window fullscreen, does not scale
+#screen = pygame.display.set_mode((x, y), pygame.SCALED)
+screen = pygame.display.set_mode((x, y), pygame.FULLSCREEN | pygame.SCALED)
 
 # Font init
-titleFont = pygame.font.Font('usr/lib/technocalypse/assets/Techno.ttf', (y//5))
-mediumFont = pygame.font.Font('usr/lib/technocalypse/assets/Techno.ttf', (y//10))
-roundFont = pygame.font.Font('usr/lib/technocalypse/assets/Technopath.otf', (y//10))
+titleFont = pygame.font.Font('assets/Techno.ttf', (y//7))
+mediumFont = pygame.font.Font('assets/Techno.ttf', (y//11))
+roundFont = pygame.font.Font('assets/Technopath.otf', (y//11))
 
 # Picture init
-menuBackground = pygame.image.load('usr/lib/technocalypse/assets/menu.jpg')
+menuBackground = pygame.image.load('assets/menu.jpg')
 menuBackground = pygame.transform.scale(menuBackground, (x, y))
 
 # Game state
@@ -70,10 +75,19 @@ def draw_background():
 
 def draw_menu_text():
     for dx, dy in [(2, 2), (-2, -2), (2, -2), (-2, 2)]:
+    
+        #Defining the White outline for TECHNOCALYPSE
         outline_text_1 = titleFont.render('TECHNOCALYPSE', True, (255, 255, 255))
+
+        #Drawing the white outline and the location. Get rekted
         screen.blit(outline_text_1, outline_text_1.get_rect(center=(x//2 + dx, y//2 + dy)))
+            
+        #White outline for Press Space to Start
         outline_text_2 = mediumFont.render('Press Space to Start', True, (255, 255, 255))
+
+        #Drawing the white outline and the location.
         screen.blit(outline_text_2, outline_text_2.get_rect(center=(x//2 + dx, (y//2 + y//6) + dy)))
+    
     titleText = titleFont.render('TECHNOCALYPSE', True, (0, 0, 0,))
     screen.blit(titleText, titleText.get_rect(center=(x//2, y//2)))
     mediumText = mediumFont.render('Press Space to Start', True, (0, 0, 0,))
