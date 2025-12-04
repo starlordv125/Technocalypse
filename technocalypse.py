@@ -141,7 +141,6 @@ def round_start():
 # Main loop
 def main():
     round_start()
-
+clock.tick(60)
 main_menu()
 main()
-clock.tick(60)
