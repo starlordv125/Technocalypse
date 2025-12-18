@@ -77,6 +77,10 @@ roundFont = pygame.font.Font(get_source_path('assets/Technopath.otf'), (y//11))
 menuBackground = pygame.image.load(get_source_path('assets/menu.jpg'))
 menuBackground = pygame.transform.scale(menuBackground, (x, y))
 
+# Sprite init
+spaceShip = pygame.image.load(get_source_path('assets/space-ship-pixel.png'))
+spaceShip = pygame.transform.scale(spaceShip, (200, 200))
+
 # Game state
 count = 0
 score = 0
@@ -85,6 +89,7 @@ health = 3 # May change later
 # Draw background
 def draw_background():
     screen.blit(menuBackground, (0,0))
+    screen.blit(spaceShip, (300, 250))
 
 def draw_menu_text():
     for dx, dy in [(2, 2), (-2, -2), (2, -2), (-2, 2)]:
