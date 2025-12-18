@@ -150,10 +150,13 @@ def round_start():
         screen.fill((0, 0, 0))
         draw_round_text(count)
         pygame.display.update()
-    
+
+def round_play():
+    pass
+
 # Main loop
 def main():
+    main_menu()
     round_start()
 clock.tick(60)
-main_menu()
 main()
