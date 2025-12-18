@@ -21,6 +21,7 @@ import pygame
 import math
 from PIL import Image, ImageSequence
 import os
+import sys
 import time
 
 # Initialize pygame
@@ -28,11 +29,23 @@ pygame.init()
 pygame.mixer.init()
 clock = pygame.time.Clock()
 
+# This is to get the path for either packaged or dev mode
+# Put 'get_source_path' before any filename/path
+def get_source_path(relative_path):
+    if hasattr(sys,'_MEIPASS'):
+        # Program is running in packaged mode
+        base_path = sys._MEIPASS
+    else:
+        # Program is running in development mode
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path,relative_path)
+
 # Sound init will go here
-menuTheme = pygame.mixer.Sound('assets/menu.mp3')
+menuTheme = pygame.mixer.Sound(get_source_path('assets/menu.mp3'))
 menuTheme.set_volume(0.55)
-battleTheme = pygame.mixer.Sound('assets/battle.mp3')
-roundStartTheme = pygame.mixer.Sound('assets/roundStart.mp3')
+battleTheme = pygame.mixer.Sound(get_source_path('assets/battle.mp3'))
+roundStartTheme = pygame.mixer.Sound(get_source_path('assets/roundStart.mp3'))
 
 # Ends Program
 def quit_program():
@@ -56,12 +69,12 @@ y = 600
 screen = pygame.display.set_mode((x, y), pygame.FULLSCREEN | pygame.SCALED)
 
 # Font init
-titleFont = pygame.font.Font('assets/Techno.ttf', (y//7))
-mediumFont = pygame.font.Font('assets/Techno.ttf', (y//11))
-roundFont = pygame.font.Font('assets/Technopath.otf', (y//11))
+titleFont = pygame.font.Font(get_source_path('assets/Techno.ttf'), (y//7))
+mediumFont = pygame.font.Font(get_source_path('assets/Techno.ttf'), (y//11))
+roundFont = pygame.font.Font(get_source_path('assets/Technopath.otf'), (y//11))
 
 # Picture init
-menuBackground = pygame.image.load('assets/menu.jpg')
+menuBackground = pygame.image.load(get_source_path('assets/menu.jpg'))
 menuBackground = pygame.transform.scale(menuBackground, (x, y))
 
 # Game state
